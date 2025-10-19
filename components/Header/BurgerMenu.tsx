@@ -1,54 +1,24 @@
+
 'use client';
 
-
-
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
+import { useCategories } from '../../context/CategoryContext';
 
-type Categories ={
-  name: string;
-  url:string;
-  slug: string;
-}
-
-
-
-export  function BurgerMenu() {
+export function BurgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
-   const [categories, setCategories] = useState<Categories[]>([]);
-
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const res = await fetch('https://dummyjson.com/products/categories');
-        if (!res.ok) throw new Error('Failed to fetch categories');
-        const data = await res.json();
-        setCategories(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchCategories();
-  }, []);
-
+  const { categories, loading, error } = useCategories();
 
   const handleMouseLeave = () => {
     closeTimer.current = setTimeout(() => {
       setIsOpen(false);
-    }, 0.5);
-
-  
+    }, 500);
   };
 
   return (
     <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="p-2"
-      >
+      <button onClick={() => setIsOpen(!isOpen)} className="p-2">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <line x1="1" y1="6" x2="40" y2="6" stroke="black" strokeWidth="1" />
           <line x1="1" y1="12" x2="40" y2="12" stroke="black" strokeWidth="1" />
@@ -62,17 +32,19 @@ export  function BurgerMenu() {
           onMouseLeave={handleMouseLeave}
         >
           <ul className="py-2">
-           {categories.map((category) => (
+            {loading && <li className="px-4 py-2">Loading...</li>}
+            {error && <li className="px-4 py-2 text-red-500">{error}</li>}
+            {categories.map((category) => (
               <li key={category.slug}>
                 <Link
-                  href={`/products/category/${category.slug}`}
+                   href={`/products/category/${category.slug}`}
                   className="block px-4 py-2 hover:bg-gray-50"
                 >
                   {category.name}
                 </Link>
               </li>
-            ))}          
-            </ul>
+            ))}
+          </ul>
         </div>
       )}
     </div>

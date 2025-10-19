@@ -4,35 +4,22 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useMemo } from 'react'
-
-type Products = {
-
-  id: number;
-  title: string;
-  category: string,
-  price: number,
-  discountPercentage: number;
-  brand:string;
-  images: string[]; 
-};
+import { useProducts } from '@/context/ProductContext'
 
 
-type Props = {
-  data : Products[];
-}
-
-
-export  function Pagination({data}:Props) {
-
+export  function Products() {
+     const { products, loading, error } = useProducts();
      const [page, setPage] = useState(1);
-
      const itemsPerPage = 9;
-     const totalPages = Math.ceil(data.length / itemsPerPage);
+     const totalPages = Math.ceil(products.length / itemsPerPage);
+
+           console.log(products)
+
 
      const current = useMemo(()=>{
       const start = (page-1) * itemsPerPage;
-      return data.slice(start, start + itemsPerPage);///0-9
-     }, [page,data]);
+      return products.slice(start, start + itemsPerPage);///0-9
+     }, [page,products]);
 
      const prev = () => setPage(p => Math.max(1, p-1));
      const next = ()=> setPage(p => Math.min(totalPages, p + 1));
@@ -41,12 +28,18 @@ export  function Pagination({data}:Props) {
       const maxVisible = 4;
       const start = Math.max(1, page - 1);
       const end = Math.min(totalPages, start + maxVisible - 1);
+      
       return Array.from({ length: end - start + 1 }, (_, i) => start + i);
        }, [page, totalPages]);
+
+       if (loading) return <p>Loading...</p>;
+       if (error) return <p className="text-red-500">Error: {error}</p>;
+
 
 
   return (
     <div className='container mx-auto px-4'>
+
       <ul className='grid md:grid-cols-2 lg:grid-cols-3 gap-1 mt-15 '>
         {current.map(item => (
           <li key={item.id} className='p-2 mt-6'
@@ -61,7 +54,7 @@ export  function Pagination({data}:Props) {
             </div>
            
            <div>
-            <Link className="font-medium" href={`/products/${item.id}`}>
+            <Link className="font-medium hover:underline" href={`/products/${item.id}`}>
               {item.title}
             </Link>
            <div className="flex gap-2 items-center">

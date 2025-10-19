@@ -16,12 +16,12 @@ type Products = {
 };
 
 
-
 type Props = {
     products : Products[];
 }
 
-export function CategoryList({ products }: Props) {
+
+export function ProductsByCategory({ products }: Props) {
   return (
     <div className='container mx-auto px-4'>
       <ul className='grid md:grid-cols-2 lg:grid-cols-3 gap-1  '>
@@ -38,7 +38,7 @@ export function CategoryList({ products }: Props) {
             </div>
            
            <div>
-            <Link className="font-medium" href={`/products/${product.id}`}>
+            <Link className="font-medium hover:underline" href={`/products/${product.id}`}>
               {product.title}
             </Link>
            <div className="flex gap-2 items-center">
@@ -48,7 +48,6 @@ export function CategoryList({ products }: Props) {
             </span>
           </div>
             </div>
-
           </li>
         ))}
           </ul>
