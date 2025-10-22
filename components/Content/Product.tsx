@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
 import Image from 'next/image';
-import { useState } from 'react';
+// import { useProducts } from '@/context/ProductContext'
+
 
 type Review = {
     rating: number;
@@ -37,6 +38,7 @@ type Product = {
     thumbnail: string;
 }
 
+
 type Props = {
     product: Product;
 };
@@ -44,7 +46,14 @@ type Props = {
 
 
 export function Product({ product }: Props) {
-    const [quantity, setQuantity] = useState(1);
+    // const [quantity, setQuantity] = useState(1);
+    //  const { products,  handleAddToCart, } = useProducts();
+
+
+     
+
+    
+
 
     return (
         <div className='container mx-auto '>
@@ -112,7 +121,7 @@ export function Product({ product }: Props) {
                     </h4>
 
                     <div className='flex flex-row gap-2  justify-center items-center mt-5'>
-                        <div className="relative w-33 ">
+                        {/* <div className="relative w-33 ">
                             <button
                                 onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
                                 className="absolute left-0 top-1/2 -translate-y-1/2 px-2 text-lg text-gray-600 hover:text-black cursor-pointer"
@@ -131,9 +140,11 @@ export function Product({ product }: Props) {
                                 className="absolute right-0 top-1/2 -translate-y-1/2 px-2 text-lg text-gray-600 hover:text-black cursor-pointer"                        >
                                 +
                             </button>
-                        </div>
+                        </div> */}
 
-                        <button className='bg-white px-7 h-11.5 border  border-gray-300 rounded cursor-pointer hover:bg-gray-50 transition duration-200' >
+                        <button className='bg-white px-7 h-11.5 border  border-gray-300 rounded cursor-pointer hover:bg-gray-50 transition duration-200'
+                        //  onClick={() => handleAddToCart()} 
+                         >
 
                             Add to cart
                         </button>

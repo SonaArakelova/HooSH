@@ -8,12 +8,13 @@ import { useProducts } from '@/context/ProductContext'
 
 
 export  function Products() {
-     const { products, loading, error } = useProducts();
+     const { products,loading,error,
+      handleAddToCart, } = useProducts();
      const [page, setPage] = useState(1);
      const itemsPerPage = 9;
      const totalPages = Math.ceil(products.length / itemsPerPage);
 
-           console.log(products)
+        console.log(products)
 
 
      const current = useMemo(()=>{
@@ -25,11 +26,11 @@ export  function Products() {
      const next = ()=> setPage(p => Math.min(totalPages, p + 1));
 
       const visiblePages = useMemo(() => {
-      const maxVisible = 4;
-      const start = Math.max(1, page - 1);
-      const end = Math.min(totalPages, start + maxVisible - 1);
-      
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+        const maxVisible = 4;
+        const start = Math.max(1, page - 1);
+        const end = Math.min(totalPages, start + maxVisible - 1);
+        
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
        }, [page, totalPages]);
 
        if (loading) return <p>Loading...</p>;
@@ -57,12 +58,18 @@ export  function Products() {
             <Link className="font-medium hover:underline" href={`/products/${item.id}`}>
               {item.title}
             </Link>
+            <p> {item.brand}</p>
            <div className="flex gap-2 items-center">
             <span className="line-through ">${item.price}</span>
             <span className="font-semibold text-black">
               ${((item.price - (item.price * item.discountPercentage) / 100)).toFixed(1)}
             </span>
+
           </div>
+            <button  
+            onClick={() => handleAddToCart(item)}
+            className=' bg-white px-2 py-1 mt-1 border border-gray-300 rounded cursor-pointer hover:bg-gray-50 transition duration-200'>Add to Cart</button>
+
             </div>
 
           </li>

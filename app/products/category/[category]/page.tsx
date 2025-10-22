@@ -2,7 +2,6 @@ import React from 'react'
 import {ProductsByCategory} from '../../../../components/Content/ProductsByCategory'
 
 
-
 type Products = {
   id: number;
   title: string;
