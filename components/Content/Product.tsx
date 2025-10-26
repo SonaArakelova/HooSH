@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Image from 'next/image';
-// import { useProducts } from '@/context/ProductContext'
+import { useProducts } from '@/context/ProductContext'
 
 
 type Review = {
@@ -39,20 +39,10 @@ type Product = {
 }
 
 
-type Props = {
-    product: Product;
-};
 
 
-
-export function Product({ product }: Props) {
-    // const [quantity, setQuantity] = useState(1);
-    //  const { products,  handleAddToCart, } = useProducts();
-
-
-     
-
-    
+export function Product({ product }: { product: Product }) {
+     const {   handleAddToCart, } = useProducts();
 
 
     return (
@@ -143,7 +133,7 @@ export function Product({ product }: Props) {
                         </div> */}
 
                         <button className='bg-white px-7 h-11.5 border  border-gray-300 rounded cursor-pointer hover:bg-gray-50 transition duration-200'
-                        //  onClick={() => handleAddToCart()} 
+                         onClick={() => handleAddToCart(product)} 
                          >
 
                             Add to cart

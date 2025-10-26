@@ -9,39 +9,76 @@ import {
 } from 'react';
 
 
-type Products = {
+
+
+type Review = {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
+};
+
+type Dimensions = {
+  width: number;
+  height: number;
+  depth: number;
+};
+
+type Product = {
   id: number;
   title: string;
-  category: string,
-  price: number,
+  description: string;
+  price: number;
   discountPercentage: number;
-  brand:string;
-  images: string[]; 
-};
+  rating: number;
+  stock: number;
+  brand: string;
+  weight: number;
+  dimensions: Dimensions;
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  returnPolicy: string;
+  images: string[];
+  reviews: Review[];
+  thumbnail: string;
+}
+
 
 
 export type Order = {
-    id: number;
-    title: string;
-    price: number;
-    discountPercentage: number;
-    category: string;
-    images:string[];
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  weight: number;
+  dimensions: Dimensions;
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  returnPolicy: string;
+  images: string[];
+  reviews: Review[];
+  thumbnail: string;
     quantity: number;
 }
 
 
 export type ProductContextType = {
-  products: Products[];
+  products: Product[];
   loading: boolean;
   error: string | null;
   orders: Order[];
-  handleAddToCart: (product: Products) => void;
-  handleRemoveFromCart:(order:Order) => void;
-  decreaseCartItemQuantity: (order:Order) => void;
-  increaseCartItemQuantity:(order:Order) => void;
+  handleAddToCart: (product: Product) => void;
+  handleRemoveFromCart:(id: number)=> void,
+  decreaseCartItemQuantity: (id: number)=> void,
+  increaseCartItemQuantity:(id: number)=> void,
 }
-
 
 
 const ProductContext = createContext<ProductContextType | undefined>({
@@ -58,7 +95,7 @@ const ProductContext = createContext<ProductContextType | undefined>({
 
 
 export function ProductProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<Products[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -84,48 +121,48 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
 
 
-  const handleAddToCart = (products: Products)=>{
-    const exists = orders.find(order => order.id === products.id);
+  const handleAddToCart = (product: Product)=>{
+    const exists = orders.find(order => order.id === product.id);
     
     if( exists){
-      setOrders(prev => prev.map(order =>  order.id === products.id
+      setOrders(prev => prev.map(order =>  order.id === product.id
        ? {...order, quantity: order.quantity +1 }
        :order
       )
       );
       }else{
         const newOrder = {
-          ...products, quantity: 1
+          ...product, quantity: 1
         }
         setOrders((prev: Order[]) => [...prev, newOrder])
       }
     };
   
 
-    const handleRemoveFromCart = (orderToRemove: Order) => {
-      setOrders(prev => prev.filter(order => order.id !== orderToRemove.id));
+    const handleRemoveFromCart = (id: number) => {
+      setOrders(prev => prev.filter(item => item.id !== id));
     };
 
 
 
-    const increaseCartItemQuantity = (order: Order) => {
-      setOrders(prev =>prev.map(item =>
-          item.id === order.id ? { ...item, quantity: item.quantity + 1 } : item
+    const increaseCartItemQuantity = (id: number) => {
+      setOrders(prev => prev.map(item =>
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
         )
       );
     };
 
 
-  const decreaseCartItemQuantity = (order: Order) => {
-    const existing = orders.find(item => item.id === order.id);
+  const decreaseCartItemQuantity = (id: number) => {
+    const existing = orders.find(item => item.id === id);
 
     if (existing) {
       if (existing.quantity === 1) {
-        handleRemoveFromCart(existing);
+        handleRemoveFromCart(id);
       } else {
         setOrders(prev =>
           prev.map(item =>
-            item.id === order.id ? { ...item, quantity: item.quantity - 1 } : item
+            item.id === id ? { ...item, quantity: item.quantity - 1 } : item
           )
         );
       }

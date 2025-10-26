@@ -2,19 +2,43 @@ import React from 'react'
 import {ProductsByCategory} from '../../../../components/Content/ProductsByCategory'
 
 
-type Products = {
-  id: number;
-  title: string;
-  category: string,
-  price: number,
-  discountPercentage: number;
-  brand:string;
-  images: string[]; 
+type Review = {
+    rating: number;
+    comment: string;
+    date: string;
+    reviewerName: string;
+    reviewerEmail: string;
 };
+
+type Dimensions = {
+    width: number;
+    height: number;
+    depth: number;
+};
+
+type Product = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    rating: number;
+    stock: number;
+    brand: string;
+    weight: number;
+    dimensions: Dimensions;
+    warrantyInformation: string;
+    shippingInformation: string;
+    availabilityStatus: string;
+    returnPolicy: string;
+    images: string[];
+    reviews: Review[];
+    thumbnail: string;
+}
 
 
 type ProductResponse = {
-    products : Products[];
+    products : Product[];
 }
 
 type Params = {
@@ -31,7 +55,7 @@ export default async function CategoryPage({params}: Params) {
 
   return (
     <div className=" container mx-auto mb-3 bg-custom min-h-auto">
-      <p className='mt-30 px-8 text-[1.1rem] '>{category}</p>
+      <p className='mt-30 px-8 text-[1.1rem] uppercase '>{category}</p>
       {
         data.products ? <ProductsByCategory products={data.products}/>:
         <p className="text-center text-2xl text-gray-500">No product found in {category}</p>

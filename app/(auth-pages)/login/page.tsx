@@ -1,7 +1,11 @@
-import React from 'react'
 
-export default function page() {
+import React from 'react'
+import { Login } from '@/components/Login'
+
+export default function Page() {
   return (
-    <div>Login</div>
+    <div >
+      <Login />
+    </div>
   )
 }

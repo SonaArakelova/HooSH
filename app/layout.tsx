@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../css/globals.css";
 import { ProductProvider } from "@/context/ProductContext";
 import { CategoryProvider } from "@/context/CategoryContext";
+import { AuthProvider } from "@/context/AuthContext";
+
 
 
 import { Footer } from "@/components/Footer";
@@ -33,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
+        <AuthProvider>
         <ProductProvider>
         <CategoryProvider>
             <Header />
@@ -41,6 +43,7 @@ export default function RootLayout({
             <Footer />
           </CategoryProvider>
          </ProductProvider>
+         </AuthProvider>
 
          
       </body>

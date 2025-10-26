@@ -14,7 +14,7 @@ export  function Products() {
      const itemsPerPage = 9;
      const totalPages = Math.ceil(products.length / itemsPerPage);
 
-        console.log(products)
+    console.log(products)
 
 
      const current = useMemo(()=>{
