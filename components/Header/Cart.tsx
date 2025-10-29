@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
@@ -18,6 +19,7 @@ export function Cart({ setShowCart }: CartProps) {
     const discountedPrice = item.price - (item.price * item.discountPercentage) / 100;
     return sum + discountedPrice * item.quantity;
   }, 0);
+  
 
 
   return (
@@ -61,12 +63,12 @@ export function Cart({ setShowCart }: CartProps) {
                   />
                   <span className="truncate  hover:overflow-visible hover:-translate-y-11/12 ">{item.title}</span>
                   <div className="ml-5 flex items-center justify-center">
-                    <button className="text-3xl mr-2 py-2  cursor-pointer"
+                    <button className="text-3xl mr-2 py-2  cursor-pointer  hover:text-red-400"
                       onClick={() => decreaseCartItemQuantity(item.id)}
 
                     > - </button>
                     <span className="text-center text-lg ">{item.quantity}</span>
-                    <button className="text-2xl ml-2 cursor-pointer"
+                    <button className="text-2xl ml-2 cursor-pointer  hover:text-red-400"
                       onClick={() => increaseCartItemQuantity(item.id)}
 
                     > + </button>

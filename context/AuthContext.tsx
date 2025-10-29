@@ -1,10 +1,10 @@
 'use client'
 
 import React, {
-    createContext, 
-    useContext, 
-    useState,
-    ReactNode } from 'react'
+      createContext, 
+      useContext, 
+      useState,
+      ReactNode } from 'react'
 
 type User = {
   id: number
@@ -41,10 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  
 
  const login = async (username: string, password: string) => {
   setLoading(true)
   setError(null)
+
 
   try {
     const res = await fetch('https://dummyjson.com/auth/login', {
@@ -80,6 +82,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
     localStorage.removeItem('token')
   }
+
+
 
   return (
     <AuthContext.Provider 

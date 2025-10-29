@@ -170,6 +170,28 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   };
 
 
+  //for local storage, but not working properly :(
+  //setitem ok but getitem no
+
+  useEffect(()=>{
+    localStorage.setItem('cart', JSON.stringify(orders));
+  },
+  [orders]);
+
+
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      try {
+        const parsedCart = JSON.parse(storedCart);
+        setOrders(parsedCart);
+      } catch (error) {
+        console.error("Failed to parse cart from localStorage:", error);
+      }
+    }
+  }
+}, []);
   
 
   return (
@@ -188,6 +210,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     </ProductContext.Provider>
   );
 }
+
 
 
 export function useProducts(): ProductContextType {

@@ -8,8 +8,6 @@ import { useAuth } from "@/context/AuthContext"
 
 
 
-
-
 export function Header() {
   const [showCart, setShowCart] = useState(false);
   const { orders } = useProducts();
